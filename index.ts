@@ -6,11 +6,15 @@ const {createServer} = require("http")
 const cors = require("cors")
 
 const app = express();
-app.use(cors({origin : "http://localhost:3000"}))
+
+const isDev = app.settings.env === "development"
+const URLL = isDev ? "http://localhost:3000" : "https://white-board-app.vercel.app"
+
+app.use(cors({origin : URLL}))
 
 const httpServer = createServer(app);
 
-const io = new Server(httpServer , {cors : "http://localhost:3000"});
+const io = new Server(httpServer , {cors : URLL});
 
 io.on("connection" , (socket) => {
     console.log('socket connected');
