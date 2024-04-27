@@ -26,9 +26,12 @@ io.on("connection" , (socket) => {
     })
 
     socket.on('config' , (arg) => {
+        socket.broadcast.emit('config' , arg)
+    })
+    socket.on('activeItem' , (arg) => {
         console.log(arg);
         
-        socket.broadcast.emit('config' , arg)
+        socket.broadcast.emit('activeItem' , arg)
     })
 })
 
