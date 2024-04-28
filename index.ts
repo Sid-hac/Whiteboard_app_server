@@ -16,24 +16,49 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer , {cors : URLL});
 
+// let Users : string[] = [];
+
+
 io.on("connection" , (socket) => {
     console.log('socket connected');
-    socket.on('beginPath' , (arg) => {
-       socket.broadcast.emit('beginPath', arg)
+    socket.on('createRoom' , ({roomName , userName ,  id}) => {
+        console.log(roomName ,userName ,  id);
+        socket.join(roomName) 
+        io.to(id).emit('connected',userName +' joined the room')   
     })
-    socket.on('drawLine', (arg) =>{
-        socket.broadcast.emit('drawLine' , arg)
-    })
-
-    socket.on('config' , (arg) => {
-        socket.broadcast.emit('config' , arg)
-    })
-    socket.on('activeItem' , (arg) => {
-        console.log(arg);
+    socket.on('joinRoom' , ({roomName , userName ,  id}) => {
+         
+        socket.join(roomName)
         
-        socket.broadcast.emit('activeItem' , arg)
+        // Users.push(userName)
+        console.log(roomName);
+        io.to(roomName).emit( 'newUser' ,{ username : userName , roomname : roomName})
+        socket.on('beginPath' , (arg) => {
+            // socket.broadcast.to(roomName).emit('beginPath', arg)
+            io.sockets.to(roomName).emit( 'beginPath' , arg)
+         })
+         socket.on('drawLine', (arg) =>{
+            // socket.broadcast.to(roomName).emit('drawLine', arg)
+            io.sockets.to(roomName).emit( 'drawLine' , arg)
+        })
+        socket.on('config' , (arg) => {
+            // socket.broadcast.to(roomName).emit('config', arg)
+            io.sockets.to(roomName).emit( 'config' , arg)
+            
+        })
+        socket.on('activeItem' , (arg) => {
+            // socket.broadcast.to(roomName).emit('activeItem', arg)
+            io.sockets.to(roomName).emit( 'activeItem' , arg)
+            
+        })
+
     })
+    
+   
+
+    
 })
+
 
 
 
