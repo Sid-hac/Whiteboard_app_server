@@ -20,7 +20,6 @@ const io = new Server(httpServer , {cors : URLL});
 
 
 io.on("connection" , (socket) => {
-    console.log('socket connected');
     socket.on('createRoom' , ({roomName , userName ,  id}) => {
         console.log(roomName ,userName ,  id);
         socket.join(roomName) 
@@ -31,7 +30,6 @@ io.on("connection" , (socket) => {
         socket.join(roomName)
         
         // Users.push(userName)
-        console.log(roomName);
         io.to(roomName).emit( 'newUser' ,{ username : userName , roomname : roomName})
         socket.on('beginPath' , (arg) => {
             // socket.broadcast.to(roomName).emit('beginPath', arg)
