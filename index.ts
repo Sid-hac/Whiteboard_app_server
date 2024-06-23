@@ -8,7 +8,7 @@ const cors = require("cors")
 const app = express();
 
 const isDev = app.settings.env === "development"
-const URLL = isDev ? "http://localhost:3000" : "https://white-board-app.vercel.app"
+const URLL = isDev ? "http://localhost:3000" : "https://doodleboard-new.netlify.app"
 
 app.use(cors({origin : URLL}))
 
