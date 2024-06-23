@@ -15,6 +15,7 @@ app.use(cors({origin : URLL}))
 const httpServer = createServer(app);
 
 const io = new Server(httpServer , {cors : URLL});
+const port = process.env.PORT || 5000
 
 // let Users : string[] = [];
 
@@ -61,8 +62,8 @@ io.on("connection" , (socket) => {
 
 
 
-httpServer.listen(5000 , () =>{
-    console.log('server is running on port 5000');
+httpServer.listen(port , () =>{
+    console.log(`server is running on port ${port}` );
 })
 
 
